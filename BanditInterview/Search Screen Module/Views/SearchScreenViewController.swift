@@ -275,21 +275,6 @@ class SearchScreenViewController: UIViewController {
     }
 }
 
-//// MARK: - UICollectionViewDataSource
-//extension SearchScreenViewController: UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return viewModel?.imageItemViewModels.count ?? 0
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SearchResultCollectionViewCell.self)", for: indexPath) as? SearchResultCollectionViewCell else { return UICollectionViewCell() }
-//
-//        cell.viewModel = viewModel?.imageItemViewModels[safe: indexPath.item]
-//
-//        return cell
-//    }
-//}
-
 // MARK: - UICollectionViewDelegate
 extension SearchScreenViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
