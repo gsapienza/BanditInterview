@@ -14,12 +14,15 @@ enum Section: CaseIterable {
 
 class SearchScreenViewController: UIViewController {
     
+    //MARK: - Public
+    
+    let searchTextField = UITextField()
+    
     //MARK: - Private Properties
     
-    private let interactor = SearchInteractor()
+    private let interactor: SearchInteractorProtocol
     private let headerView = SearchHeaderView()
     private let searchTopBackgroundView = FadeGradientView()
-    private let searchTextField = UITextField()
     private let collectionView: UICollectionView
     private let activityIndicatorView = UIActivityIndicatorView(style: .large)
     private let collectionViewLayout = UICollectionViewFlowLayout()
@@ -66,7 +69,9 @@ class SearchScreenViewController: UIViewController {
     
     //MARK: - Public
     
-    init() {
+    init(interactor: SearchInteractorProtocol) {
+        self.interactor = interactor
+        
         collectionViewLayout.minimumLineSpacing = 2
         collectionViewLayout.minimumInteritemSpacing = 2
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
@@ -148,6 +153,21 @@ class SearchScreenViewController: UIViewController {
         
         collectionView.contentInset.top = searchTopBackgroundView.frame.height
         collectionView.verticalScrollIndicatorInsets.top = searchTopBackgroundView.frame.height
+    }
+    
+    func search(text: String, pageNumber: Int, success: @escaping () -> Void, failure: @escaping () -> Void) {
+        interactor.fetchImageCollection(text: text, pageNumber: pageNumber, success: { (imagePageCollection) in
+            if text == self.searchTextField.text {
+                success()
+                self.imagePageCollections.append(imagePageCollection)
+                self.viewModel = SearchScreenViewModelTranslator.translate(text: text, imageItems: self.imageItemsFromCollections())
+            } else {
+                failure()
+            }
+        }) { (error) in
+            failure()
+            print(error ?? "")
+        }
     }
     
     //MARK: - Private
@@ -242,21 +262,6 @@ class SearchScreenViewController: UIViewController {
         }
         
         return imageItems
-    }
-    
-    private func search(text: String, pageNumber: Int, success: @escaping () -> Void, failure: @escaping () -> Void) {
-        interactor.fetchImageCollection(text: text, pageNumber: pageNumber, success: { (imagePageCollection) in
-            if text == self.searchTextField.text {
-                success()
-                self.imagePageCollections.append(imagePageCollection)
-                self.viewModel = SearchScreenViewModelTranslator.translate(text: text, imageItems: self.imageItemsFromCollections())
-            } else {
-                failure()
-            }
-        }) { (error) in
-            failure()
-            print(error ?? "")
-        }
     }
     
     private func configureDataSource() {

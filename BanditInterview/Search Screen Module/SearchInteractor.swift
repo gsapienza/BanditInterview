@@ -8,9 +8,9 @@
 
 import Foundation
 
-class SearchInteractor {
+class SearchInteractor: SearchInteractorProtocol {
     func fetchImageCollection(text: String, pageNumber: Int, success: @escaping (ImagePageCollection) -> Void, failure: @escaping (Error?) -> Void) {
-        guard let urlString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=b5917f318190aab42d24f0a526499e67&page=\(pageNumber)&tags​=\(text)&has_geo=1&format=json&nojsoncallback=1&safe_search=1".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let url = URL(string: urlString) else {
+        guard let urlString = "https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=b5917f318190aab42d24f0a526499e67&text=\(text)&page=\(pageNumber)&format=json&nojsoncallback=1".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let url = URL(string: urlString) else {
             print("Invalid URL")
             return
         }

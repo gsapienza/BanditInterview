@@ -27,7 +27,8 @@ class SearchScreenFlowCoordinator: ParentFlowCoordinator {
     func start(animated: Bool = true, presenter: Presenter) {
         self.presenter = presenter
         
-        let vc = SearchScreenViewController()
+        let interactor = SearchInteractor()
+        let vc = SearchScreenViewController(interactor: interactor)
                
         presenter.present(viewController: vc, animated: animated, completion: nil)
         
