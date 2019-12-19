@@ -13,8 +13,6 @@ enum Section: CaseIterable {
 }
 
 class SearchScreenViewController: UIViewController {
-
-    //MARK: - Public Properties
     
     //MARK: - Private Properties
     
@@ -43,7 +41,6 @@ class SearchScreenViewController: UIViewController {
             searchTextField.tintColor = viewModel.searchFieldTintColor
             searchTextField.transform = CGAffineTransform(scaleX: viewModel.searchFieldScale, y: viewModel.searchFieldScale)
             collectionView.alpha = viewModel.collectionViewAlpha
-            //collectionView.reloadData()
             
             var snapshot = NSDiffableDataSourceSnapshot<Section, ImageItemViewModel>()
             snapshot.appendSections([.main])
@@ -213,7 +210,7 @@ class SearchScreenViewController: UIViewController {
             viewModel = SearchScreenViewModelTranslator.translate(text: "", imageItems: imageItemsFromCollections())
         }
         
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut, .allowUserInteraction], animations: {
             self.viewModel = SearchScreenViewModelTranslator.translate(text: self.searchTextField.text ?? "", imageItems: self.imageItemsFromCollections())
             self.view.layoutIfNeeded()
         }, completion: nil)

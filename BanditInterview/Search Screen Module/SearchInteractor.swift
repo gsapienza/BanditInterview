@@ -16,7 +16,7 @@ class SearchInteractor {
         }
         
         let request = URLRequest(url: url)
-        
+                
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else { failure(error); return }
             

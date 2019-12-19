@@ -18,7 +18,9 @@ class SearchResultCollectionViewCell: UICollectionViewCell {
             imageView.image = #imageLiteral(resourceName: "FlickrLogoTemplate")
             if let imageURL = viewModel.imageURL {
                 UIImageView.downloadImage(url: imageURL) { (image) in
-                    self.imageView.image = image
+                    if self.viewModel?.imageURL == imageURL {
+                        self.imageView.image = image
+                    }
                 }
             }
         }
